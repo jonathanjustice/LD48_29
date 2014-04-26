@@ -7,6 +7,7 @@
 	import flash.ui.Mouse;
 	import customEvents.SoundEvent;
 	import customEvents.StateMachineEvent;
+	import customEvents.GameEvent;
 	import Audio.SoundManager;
 	import Audio.SoundObject;
 	import Screens.*;
@@ -116,6 +117,7 @@
 					if(enemies[i].hitbox.hitTestObject(avatar.hitbox)){
 						if(enemies[i].isCollisionActive){
 							trace("collisions!")
+							dispatchEvent(new GameEvent("SCREEN_SHAKE","SCREEN_SHAKE"));
 						}
 					}
 				}

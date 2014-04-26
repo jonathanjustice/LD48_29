@@ -5,6 +5,7 @@
 	import Screens.default_screen;
 	import customEvents.SoundEvent;
 	import customEvents.StateMachineEvent;
+	import customEvents.GameEvent;
 	import flash.geom.Point;
 	public class Enemy extends default_screen{
 		private var KEY_LEFT:Boolean=false;
@@ -168,8 +169,9 @@
 			this.scaleX = fallHeight / fallHeightMax;
 			this.scaleY = this.scaleX;
 			heightMultiplier = this.scaleX;
-			if(fallHeight > 900){
+			if(fallHeight > 950){
 				isCollisionActive = true;
+				//Main.uiContainer.setScreenShake(true,"C_RECT");
 			}
 			if(fallHeight > 1000){
 				isCollisionActive = false;

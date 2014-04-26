@@ -5,6 +5,7 @@
 	import Screens.default_screen;
 	import customEvents.SoundEvent;
 	import customEvents.StateMachineEvent;
+	import customEvents.GameEvent;
 	import flash.geom.Point;
 	public class Avatar extends default_screen{
 		private var KEY_LEFT:Boolean=false;
@@ -12,13 +13,25 @@
 		private var KEY_UP:Boolean=false;
 		private var KEY_DOWN:Boolean=false;
 		private var velocity:Point = new Point();
+		private var pilotVelocity:Point = new Point();
 		private var maxVelocity:Point = new Point();
 		private var defaultMaxVelocity:int = 5;
 		private var desiredXVelocity:int = 0;
 		private var desiredYVelocity:int = 0;
+		private var pilotDesiredX:int = 0;
+		private var pilotDesiredY:int = 0;
 		private var lerpingToVelocity:Boolean=true;
 		private var multiplierX:Number=.01;
 		private var multiplierY:Number=.01;
+		//screenshake crap
+		private var shakeTimer:int=0;
+		private var maxShakeTime=30;
+		private var originalMaxShakeTime:int=30;
+		private var shakeCount:int=0;
+		private var isShaking:Boolean=false;
+		private var shakeMode:String="NONE";
+		private var previousShakeMode:String="NONE";
+		private var shakeRandomNess:Point = new Point();
 		public function Avatar (){
 			stop();
 			stopAllButtonsFromAnimating();
@@ -39,15 +52,20 @@
 			setMaxVelocity(0,0);
 			velocity.x = 0;
 			velocity.y = 0;
+			pilotVelocity.x = 0;
+			pilotVelocity.y = 0;
 			maxVelocity.x = defaultMaxVelocity;
 			maxVelocity.y = defaultMaxVelocity;
 			lerpingToVelocity = false;
 			hitbox.visible=false;
+			Main.theStage.addEventListener(GameEvent.SCREEN_SHAKE, shakeScreen);
 		}
 		
 		public function resetVelocity():void{
 			velocity.x = 0;
 			velocity.y = 0;
+			pilotVelocity.x = 0;
+			pilotVelocity.y = 0;
 		}
 		
 		public function setMaxVelocity(newX:int,newY:int):void{
@@ -60,16 +78,18 @@
 			if(lerpingToVelocity){
 				var lerpAmountX:Number = (desiredXVelocity-velocity.x)*multiplierX;
 				velocity.x += lerpAmountX;
+				pilotVelocity.x =+ lerpAmountX + pilotDesiredX-pilots.x;
 				var lerpAmountY:Number = (desiredYVelocity-velocity.y)*multiplierY;
 				velocity.y += lerpAmountY;
+				pilotVelocity.y =+ lerpAmountY + pilotDesiredY-pilots.y;
 			}
 			/*if(Math.abs(desiredX-this.x) > 0){
 				resumeLerping();
 			}*/
+			this.pilots.x += pilotVelocity.x *.5;
+			this.pilots.y += pilotVelocity.y *.5;
 			this.x += velocity.x;
 			this.y += velocity.y;
-			this.pilots.x += velocity.x *.5;
-			this.pilots.y += velocity.y *.5;
 			if(this.x < 225){
 				this.x = 225;
 				velocity.x=0;
@@ -162,6 +182,7 @@
 				//this.y +=3;
 			}
 			lerpToVelocity();
+			screenShake();
 		}
 		
 		public override function clickHandler(event:MouseEvent):void{
@@ -206,5 +227,83 @@
 				event.target.parent.gotoAndStop("up");
 			}
 		}
+		
+		
+		
+		
+		//SCREENSHAKE
+		
+		private function resetShakeRandomNess():void{
+			shakeRandomNess.x=60;
+			shakeRandomNess.y=30;
+		}
+		
+		private function resetShake():void{
+			maxShakeTime = originalMaxShakeTime;
+			setMultiplier(.37,.37);
+			pilotDesiredX = 0;
+			pilotDesiredX = 0;
+		}
+		
+		public function shakeScreen(event:GameEvent):void{
+			setScreenShake(true,"C_RECT");
+		}
+		
+		public function setScreenShake(newState:Boolean,newMode:String="NONE"):void{
+			trace("setScreenShake",shakeMode);
+			isShaking = newState;
+			previousShakeMode = shakeMode;
+			shakeMode = newMode;
+			switch(shakeMode){
+				case "NONE":
+				
+					shakeTimer=0;
+					isShaking = false;
+					resetShake();
+					break;
+				case "C_RECT":
+					shakeTimer=0;
+					maxShakeTime = 10;
+					shakeRandomNess.x=60;
+					shakeRandomNess.y=30;
+					break;
+			}
+		}
+		
+		public function screenShake():void{
+			//trace("screenShake");
+			if(isShaking == true){
+				shakeTimer++;
+				pilotDesiredX = Math.random()*shakeRandomNess.x - shakeRandomNess.y;
+				pilotDesiredY = Math.random()*shakeRandomNess.x - shakeRandomNess.y;
+			}
+			if(shakeTimer >= maxShakeTime){
+				screenShakeComplete();
+				pilotDesiredX = 0;
+				pilotDesiredY = 0;
+			}
+		}
+		
+		public function screenShakeComplete():void{
+			//trace("screenShakeComplete",shakeMode);
+			switch(shakeMode){
+				case "NONE":
+					//sdfjsd;fjsd
+					resetShake();
+					break;
+				case "C_RECT":
+					setScreenShake(true,"NONE");
+					break;
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }
