@@ -42,6 +42,7 @@
 			maxVelocity.x = defaultMaxVelocity;
 			maxVelocity.y = defaultMaxVelocity;
 			lerpingToVelocity = false;
+			hitbox.visible=false;
 		}
 		
 		public function resetVelocity():void{
@@ -67,6 +68,8 @@
 			}*/
 			this.x += velocity.x;
 			this.y += velocity.y;
+			this.pilots.x += velocity.x *.5;
+			this.pilots.y += velocity.y *.5;
 			if(this.x < 225){
 				this.x = 225;
 				velocity.x=0;

@@ -24,6 +24,7 @@
 		private var fallVelocity:Number=1.0001;
 		private var fallVelocityMultiplier:Number=1.0001;
 		private var heightMultiplier:Number=0;
+		public var isCollisionActive:Boolean=false;
 		public function Enemy (){
 			stop();
 			stopAllButtonsFromAnimating();
@@ -33,8 +34,9 @@
 		public override function setUp():void {
 			this.scaleX = 0;
 			this.scaleY = 0;
-			this.x = 275;
-			this.y = 200;
+			seedRandomSpawnPoint();
+			//this.x = 275;
+			//this.y = 200;
 			//addDynamicBlocker();
 			mouseEnabledHandler();
 			addAllListeners();
@@ -50,6 +52,12 @@
 			maxVelocity.x = defaultMaxVelocity;
 			maxVelocity.y = defaultMaxVelocity;
 			lerpingToVelocity = false;
+			hitbox.visible=false;
+		}
+		
+		private function seedRandomSpawnPoint():void{
+			this.x = 275+(Math.random()*500-250);
+			this.y = 200+(Math.random()*500-250);
 		}
 		
 		public function resetVelocity():void{
@@ -160,17 +168,22 @@
 			this.scaleX = fallHeight / fallHeightMax;
 			this.scaleY = this.scaleX;
 			heightMultiplier = this.scaleX;
+			if(fallHeight > 900){
+				isCollisionActive = true;
+			}
 			if(fallHeight > 1000){
+				isCollisionActive = false;
 				this.removeEventListener(Event.ENTER_FRAME, updateloop);
 				removeThisGameObject();
 			}
-			this.x += fallVelocityMultiplier*1.5*(this.x - 275)/100;
-			this.y += fallVelocityMultiplier*1.5*(this.y - 200)/100;
-			if(this.x < 275){
+			//weird shit
+			//this.x += fallVelocityMultiplier*1.5*(this.x - 275)/100;
+			//this.y += fallVelocityMultiplier*1.5*(this.y - 200)/100;
+			/*if(this.x < 275){
 				
 			}else{
 				
-			}
+			}*/
 			
 		}
 		

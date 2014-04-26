@@ -16,11 +16,12 @@
 		public static var uiContainer:MovieClip;
 		public static var gameContainer:MovieClip;
 		public static var backgroundContainer:MovieClip;
+		private static var enemies:Array;
 		private var isPaused:Boolean = false;
 		
 		
 		private var enemyCounter:int=0;
-		private var enemyCountMax:int=90;
+		private var enemyCountMax:int=30;
 		
 		//Screens
 		
@@ -42,6 +43,7 @@
 			uiContainer = new MovieClip();
 			gameContainer = new MovieClip();
 			backgroundContainer = new MovieClip();
+			enemies = new Array();
 			//stage.scaleMode = StageScaleMode.NO_SCALE;
 			
 			//stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -102,13 +104,21 @@
 		private function mainUpdateLoop(e:Event):void{
 			if(!isPaused){
 				//trace("gogogo");
-					enemyCounter+=1;
-					if(enemyCounter >= enemyCountMax){
-						var enemy:Enemy = new Enemy();
-						enemyCounter=0;
+				//SPAWN NEW ENEMIES
+				enemyCounter+=1;
+				if(enemyCounter >= enemyCountMax){
+					var enemy:Enemy = new Enemy();
+					enemies.push(enemy);
+					enemyCounter=0;
+				}
+				//CHECK FOR COLLISION WITH ENEMIES
+				for(var i:int=0;i<enemies.length;i++){
+					if(enemies[i].hitbox.hitTestObject(avatar.hitbox)){
+						if(enemies[i].isCollisionActive){
+							trace("collisions!")
+						}
 					}
-					
-				
+				}
 			}
 		}
 	}
