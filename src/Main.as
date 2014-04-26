@@ -13,8 +13,8 @@
 	public class Main extends MovieClip{
 		private var soundManager:SoundManager;
 		public static var theStage:Object;
-		public static var uiContainer:MovieClip;
-		public static var gameContainer:MovieClip;
+		public static var uiContainer:UiContainer;
+		public static var gameContainer:GameContainer;
 		public static var backgroundContainer:MovieClip;
 		private static var enemies:Array;
 		private var isPaused:Boolean = false;
@@ -40,8 +40,8 @@
         private function init(e:Event = null):void {
             removeEventListener(Event.ADDED_TO_STAGE, init);
 			theStage = this.stage;
-			uiContainer = new MovieClip();
-			gameContainer = new MovieClip();
+			uiContainer = new UiContainer();
+			gameContainer = new GameContainer();
 			backgroundContainer = new MovieClip();
 			enemies = new Array();
 			//stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -119,6 +119,9 @@
 						}
 					}
 				}
+				//SCREEN SHAKE FOR CONTAINERS
+				gameContainer.updateLoop();
+				uiContainer.updateLoop();
 			}
 		}
 	}
