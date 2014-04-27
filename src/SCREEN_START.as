@@ -6,10 +6,25 @@
 	import customEvents.SoundEvent;
 	import customEvents.StateMachineEvent;
 	public class SCREEN_START extends default_screen{
+		private var scrollCounter:int=0;
 		public function SCREEN_START (){
+			//play();
 			stop();
 			stopAllButtonsFromAnimating();
 			setUp();
+			this.addEventListener(Event.ENTER_FRAME, backgroundScroll);
+		}
+		
+		public function backgroundScroll(e:Event):void{
+			scrollCounter++;
+			if(scrollCounter>=10){
+				nextFrame();
+				scrollCounter=0;
+				if(currentFrame ==300){
+					trace("100");
+					gotoAndStop(1);
+				}
+			}
 		}
 		
 		public function playRemoveScreenAnimation(e:Event):void{
