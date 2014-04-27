@@ -7,11 +7,11 @@
 	import customEvents.SoundEvent;
 	import customEvents.StateMachineEvent;
 	import customEvents.GameEvent;
-	public class UiContainer extends MovieClip{
+	public class ParticleContainer extends MovieClip{
 		public var desiredX:int=0;
 		public var desiredY:int=0;
-		private var multiplierX:Number=.5;
-		private var multiplierY:Number=.5;
+		private var multiplierX:Number=.1;
+		private var multiplierY:Number=.1;
 		private var lerping:Boolean=true;
 		private var shakeTimer:int=0;
 		private var maxShakeTime=30;
@@ -22,34 +22,10 @@
 		private var previousShakeMode:String="NONE";
 		private var shakeRandomNess:Point = new Point();
 		private var screenFlash;
-		public function UiContainer (){
+		public function ParticleContainer (){
 			stop();
 			//setUp();
 			Main.theStage.addEventListener(GameEvent.SCREEN_SHAKE, shakeScreen);
-			this.addEventListener(Event.ENTER_FRAME, updateLoop);
-		}
-		
-		
-		
-		
-		
-		public function resetScreenFlash():void{
-			//Main.getScreenFlash().visible=false;
-		}
-		
-		public function setScreenFlash(newAlpha:Number):void{
-			//Main.getScreenFlash().alpha = newAlpha;
-			//Main.getScreenFlash().visible = true;
-		}
-		
-		public function updateScreenFlash():void{
-			//trace("screenFlash",screenFlash );
-			/*if(screenFlash.alpha > 0){
-				screenFlash.alpha -= .05;
-			}else{
-				screenFlash.visible = false;
-				screenFlash.alpha = 0;
-			}*/
 		}
 		
 		private function resetShakeRandomNess():void{
@@ -85,7 +61,6 @@
 					maxShakeTime = 10;
 					shakeRandomNess.x=20;
 					shakeRandomNess.y=10;
-					setScreenFlash(1);
 					break;
 			}
 		}
@@ -115,10 +90,13 @@
 		}
 		
 		
-		public function updateLoop(e:Event):void{
+		
+		
+		
+		
+		public function updateLoop():void{
 			screenShake();
 			lerpToPosition();
-			updateScreenFlash();
 		
 		}
 		
@@ -163,5 +141,6 @@
 			desiredY = newY;
 		}
 		
+
 	}
 }

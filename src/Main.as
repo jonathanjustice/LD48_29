@@ -16,6 +16,7 @@
 		public static var theStage:Object;
 		public static var uiContainer:UiContainer;
 		public static var gameContainer:GameContainer;
+		public static var particleContainer:ParticleContainer;
 		public static var backgroundContainer:MovieClip;
 		public static var enemies = new Array();;
 		private static var screenFlash:ScreenFlash;
@@ -110,6 +111,7 @@
 			theStage = this.stage;
 			uiContainer = new UiContainer();
 			gameContainer = new GameContainer();
+			particleContainer = new ParticleContainer();
 			screenFlash = new ScreenFlash();
 			backgroundContainer = new MovieClip();
 			enemies = new Array();
@@ -129,10 +131,15 @@
 			stage.addChild(backgroundContainer);
 			stage.addChild(gameContainer);
 			stage.addChild(uiContainer);
+			stage.addChild(particleContainer);
 			stage.addChild(screenFlash);
 			Main.theStage.addEventListener(StateMachineEvent.CHANGE_GAME_STATE, changeGameState);
 			soundManager = new SoundManager(theStage);
 			getStage().dispatchEvent(new StateMachineEvent("CHANGE_GAME_STATE","INIT_START_SCREEN"));
+		}
+		
+		public function getGameContainer():MovieClip{
+			return gameContainer;
 		}
 		
 		public function getStage():Object{
@@ -222,7 +229,9 @@
 		
 			
 		private function selectNewEnemySequence():void{
-			if(difficulty <= 5){
+			difficultyMode="easy"
+			selectEasySequence();
+			/*if(difficulty <= 5){
 				difficultyMode="easy"
 				selectEasySequence();
 			}else if(difficulty > 6 && difficulty <= 10){
@@ -239,12 +248,12 @@
 				
 			}else if(difficulty > 101){
 				
-			}
+			}*/
 		}
 		
 		private function selectEasySequence():void{
 			//trace("selectEasySequence");
-			var randomSequence:int= 1+Math.random()*3;
+			var randomSequence:int= 1+Math.random()*5;
 			trace(randomSequence);
 			switch(randomSequence){
 				case 1:
@@ -256,6 +265,12 @@
 				case 3:
 					enemiesToSpawn = easy_3;
 					enemiesToSpawnTimes =easy_times_3;
+				case 3:
+					enemiesToSpawn = easy_4;
+					enemiesToSpawnTimes =easy_times_4;
+				case 3:
+					enemiesToSpawn = easy_5;
+					enemiesToSpawnTimes =easy_times_5;
 			}
 			
 					//trace(enemiesToSpawn);
@@ -327,15 +342,15 @@
 			hard_times_10 = new Array();
 			
 			easy_1 = [1,2,3,4,5];
-			easy_times_1 = [5,35,38,45,52];
+			easy_times_1 = [5,35,58,85,102];
 			easy_2 = [2,3,2,3,2];
-			easy_times_2 = [1,30,50,50,50];
+			easy_times_2 = [1,30,50,90,125];
 			easy_3 = [1,5,4,1,5,4];
-			easy_times_3 = [1,10,20,30,40,50];
-			easy_4 = [];
-			easy_times_4 = [];
-			easy_5 = [];
-			easy_times_5 = [];
+			easy_times_3 = [1,10,50,87,122,150];
+			easy_4 = [6,7,8,9];
+			easy_times_4 = [30,59,95,120];
+			easy_5 = [1,7,4,2,9,2,6];
+			easy_times_5 = [19,49,75,100,125,150,175];
 			easy_6 = [];
 			easy_times_6 = [];
 			easy_7 = [];
@@ -372,13 +387,6 @@
 		
 		private function mainUpdateLoop(e:Event):void{
 			if(!isPaused){
-				/*enemyCounter+=1;
-				if(enemyCounter >= enemyCountMax){
-					//var enemy:Enemy = new Enemy();
-					var enemy:Enemy = new Enemy();
-					enemies.push(enemy);
-					enemyCounter=0;
-				}*/
 				//SPAWN ENEMIES
 				enemyCounter+=1;
 				if(enemyCounter == enemiesToSpawnTimes[enemySpawnSequenceCount]){
@@ -414,7 +422,6 @@
 				}
 				//SCREEN SHAKE FOR CONTAINERS
 				gameContainer.updateLoop();
-				uiContainer.updateLoop();
 				screenFlash.updateLoop();
 			}
 		}
