@@ -253,8 +253,8 @@
 		
 		private function selectEasySequence():void{
 			//trace("selectEasySequence");
-			var randomSequence:int= 1+Math.random()*5;
-			trace(randomSequence);
+			var randomSequence:int= 1+Math.random()*7;
+			//trace(randomSequence);
 			switch(randomSequence){
 				case 1:
 					enemiesToSpawn = easy_1;
@@ -345,16 +345,16 @@
 			easy_times_1 = [5,35,58,85,102];
 			easy_2 = [2,3,2,3,2];
 			easy_times_2 = [1,30,50,90,125];
-			easy_3 = [1,5,4,1,5,4];
+			easy_3 = [1,5,4,1,9,4];
 			easy_times_3 = [1,10,50,87,122,150];
 			easy_4 = [6,7,8,9];
 			easy_times_4 = [30,59,95,120];
 			easy_5 = [1,7,4,2,9,2,6];
 			easy_times_5 = [19,49,75,100,125,150,175];
-			easy_6 = [];
-			easy_times_6 = [];
-			easy_7 = [];
-			easy_times_7 = [];
+			easy_6 = [1,9,8,9,5];
+			easy_times_6 = [5,35,58,85,102];
+			easy_7 = [9,5,4,9,5,4];
+			easy_times_7 = [1,10,50,87,122,150];
 			easy_8 = [];
 			easy_times_8 = [];
 			easy_9 = [];
@@ -392,7 +392,7 @@
 				if(enemyCounter == enemiesToSpawnTimes[enemySpawnSequenceCount]){
 					//trace("enemyCounter matches enemiesToSpawnTimes[enemySpawnSequenceCount]");
 					var enemy:Enemy = new Enemy();
-					enemy.setType(difficultyMode,enemySpawnSequenceCount);
+					enemy.setType(difficultyMode,enemiesToSpawn[enemySpawnSequenceCount]);
 					enemies.push(enemy);
 					enemySpawnSequenceCount++;
 				}
