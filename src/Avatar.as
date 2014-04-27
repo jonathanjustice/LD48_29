@@ -82,19 +82,26 @@
 				var lerpAmountY:Number = (desiredYVelocity-velocity.y)*multiplierY;
 				velocity.x += lerpAmountX;
 				velocity.y += lerpAmountY;
-				pilotVelocity.x += lerpAmountX + pilotDesiredX-pilots.x;
-				pilotVelocity.y += lerpAmountY + pilotDesiredY-pilots.y;
+				//pilotVelocity.x = lerpAmountX + pilotDesiredX-pilots.x;
+				//pilotVelocity.y = lerpAmountY + pilotDesiredY-pilots.y;
 			}
 			/*if(Math.abs(desiredX-this.x) > 0){
 				resumeLerping();
 			}*/
-			trace(pilotVelocity);
-			this.pilots.x += pilotVelocity.x * .5;
-			this.pilots.y += pilotVelocity.y * .5;
-			this.seats.x += pilotVelocity.x *.1;
-			this.seats.y += pilotVelocity.y *.1;
+			//trace("p",pilotVelocity);
+			//trace("v",velocity);
+			//this.seats.x += velocity.x*.5;
+			//this.seats.y += velocity.y*.5;
+			//this.pilots.x += pilotVelocity.x*1;
+			//this.pilots.y += pilotVelocity.y*1;
+			//this.seats.x += pilotVelocity.x *.2;
+			//this.seats.y += pilotVelocity.y *.2;
 			this.x += velocity.x;
 			this.y += velocity.y;
+			this.pilots.x += velocity.x*.5;
+			this.pilots.y += velocity.y*.5;
+			this.seats.x += velocity.x*.25;
+			this.seats.y += velocity.y*.25;
 			if(this.x < 225){
 				this.x = 225;
 				velocity.x=0;
@@ -279,8 +286,8 @@
 			//trace("screenShake");
 			if(isShaking == true){
 				shakeTimer++;
-				pilotDesiredX = Math.random()*shakeRandomNess.x - shakeRandomNess.y;
-				pilotDesiredY = Math.random()*shakeRandomNess.x - shakeRandomNess.y;
+				desiredXVelocity += Math.random()*shakeRandomNess.x - shakeRandomNess.y;
+				desiredXVelocity += Math.random()*shakeRandomNess.x - shakeRandomNess.y;
 			}
 			if(shakeTimer >= maxShakeTime){
 				screenShakeComplete();
