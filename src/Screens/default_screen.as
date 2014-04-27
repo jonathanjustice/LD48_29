@@ -252,7 +252,7 @@
 		
 		public function addScreenToGameContainerAtTop():void{
 			Main.gameContainer.addChildAt(this,Main.gameContainer.numChildren);
-			trace(this.parent.name);
+			//trace(this.parent.name);
 		}
 		
 		public function setDesiredLerpPoint(newX:Number,newY:Number):void{
@@ -276,7 +276,10 @@
 		public function removeThisGameObject():void{
 			removeAllListeners();
 			removeDynamicBlocker();
+			//trace(this.parent.name);
+			//trace(this.parent);
 			Main.gameContainer.removeChild(this);
+			
 			//this.parent.removeChild(this);
 			//Main.getUiContainer().removeChild(this);
 		}

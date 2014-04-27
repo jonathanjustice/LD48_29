@@ -32,6 +32,7 @@
 		private var shakeMode:String="NONE";
 		private var previousShakeMode:String="NONE";
 		private var shakeRandomNess:Point = new Point();
+		private var health:int = 10;
 		public function Avatar (){
 			stop();
 			stopAllButtonsFromAnimating();
@@ -250,7 +251,7 @@
 		}
 		
 		public function setScreenShake(newState:Boolean,newMode:String="NONE"):void{
-			trace("setScreenShake",shakeMode);
+			//trace("setScreenShake",shakeMode);
 			isShaking = newState;
 			previousShakeMode = shakeMode;
 			shakeMode = newMode;
@@ -297,7 +298,12 @@
 			}
 		}
 		
-		
+		public function deductHealth(amountToDeduct:int):void{
+			health -= amountToDeduct;
+			if(health <= 0){
+				Main.theStage.dispatchEvent(new StateMachineEvent("CHANGE_GAME_STATE","GAME_OVER"));
+			}
+		}
 		
 		
 		

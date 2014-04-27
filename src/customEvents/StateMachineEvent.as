@@ -2,6 +2,8 @@
 import flash.events.Event;
 	public class StateMachineEvent extends Event {
 		public static const CHANGE_GAME_STATE:String = "CHANGE_GAME_STATE";
+		public static const GAME_OVER:String = "GAME_OVER";
+		public static const RESET_GAME:String = "RESET_GAME";
 		public static const BOOT:String = "boot";
 		public static const START_SCREEN:String = "startScreen";
 		public static const CONTINUECODE_SCREEN:String = "continueCodeScreen";
@@ -11,7 +13,6 @@ import flash.events.Event;
 		public static const IN_LEVEL:String = "inLevel";
 		public static const LEVEL_COMPLETE:String = "levelComplete";
 		public static const LEVEL_FAILED:String = "levelFailed";
-		public static const GAME_OVER:String = "gameOver";
 		public static const GAME_WON:String = "gameWon";
 		public static const START_INGAME_CUTSCENE:String = "startInGameCutScene";
 		public static const CUTSCENE_CURRENTLY_LOADING_TRIGGER:String = "cutSceneCurrentlyLoading_Trigger";

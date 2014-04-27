@@ -8,6 +8,7 @@
 	import customEvents.GameEvent;
 	import flash.geom.Point;
 	public class Enemy extends default_screen{
+		public var isPaused:Boolean=false;
 		private var KEY_LEFT:Boolean=false;
 		private var KEY_RIGHT:Boolean=false;
 		private var KEY_UP:Boolean=false;
@@ -26,6 +27,7 @@
 		private var fallVelocityMultiplier:Number=1.0001;
 		private var heightMultiplier:Number=0;
 		public var isCollisionActive:Boolean=false;
+		public var collisionDamage:int=1;
 		public function Enemy (){
 			stop();
 			stopAllButtonsFromAnimating();
@@ -139,28 +141,30 @@
 		}
 		
 		public function updateloop(e:Event):void{
-			if(KEY_LEFT){
-				desiredXVelocity = .25+ maxVelocity.x*heightMultiplier*1.25;
-				lerpingToVelocity = true;
-				//this.x -=3;
+			if(!isPaused){
+				if(KEY_LEFT){
+					desiredXVelocity = .25+ maxVelocity.x*heightMultiplier*1.25;
+					lerpingToVelocity = true;
+					//this.x -=3;
+				}
+				if(KEY_RIGHT){
+					desiredXVelocity = -.25+ -maxVelocity.x*heightMultiplier*1.25;
+					lerpingToVelocity = true;
+					//this.x +=3;
+				}
+				if(KEY_UP){
+					 desiredYVelocity = .25+ maxVelocity.y*heightMultiplier*1.25;
+					lerpingToVelocity = true;
+					//this.y -=3;
+				}
+				if(KEY_DOWN){
+					desiredYVelocity = -.25+ -maxVelocity.y*heightMultiplier*1.25;
+					lerpingToVelocity = true;
+					//this.y +=3;
+				}
+				lerpToVelocity();
+				fall();
 			}
-			if(KEY_RIGHT){
-				desiredXVelocity = -.25+ -maxVelocity.x*heightMultiplier*1.25;
-				lerpingToVelocity = true;
-				//this.x +=3;
-			}
-			if(KEY_UP){
-				 desiredYVelocity = .25+ maxVelocity.y*heightMultiplier*1.25;
-				lerpingToVelocity = true;
-				//this.y -=3;
-			}
-			if(KEY_DOWN){
-				desiredYVelocity = -.25+ -maxVelocity.y*heightMultiplier*1.25;
-				lerpingToVelocity = true;
-				//this.y +=3;
-			}
-			lerpToVelocity();
-			fall();
 		}
 		
 		public function fall():void{
@@ -187,6 +191,12 @@
 				
 			}*/
 			
+		}
+		
+		public override function removeThisGameObject():void{
+			var index:int = Main.enemies.indexOf(this);
+			Main.enemies.splice(index,1);
+			Main.gameContainer.removeChild(this);
 		}
 		
 		public override function clickHandler(event:MouseEvent):void{
