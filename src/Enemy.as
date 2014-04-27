@@ -6,6 +6,7 @@
 	import customEvents.SoundEvent;
 	import customEvents.StateMachineEvent;
 	import customEvents.GameEvent;
+	import flash.errors.*;
 	import flash.geom.Point;
 	public class Enemy extends default_screen{
 		public var isPaused:Boolean=false;
@@ -38,7 +39,7 @@
 		
 		public override function setUp():void {
 			hitboxes = new Array();
-			selectEnemyType();
+			//selectEnemyType();
 			this.scaleX = 0;
 			this.scaleY = 0;
 			seedRandomSpawnPoint();
@@ -59,16 +60,33 @@
 			maxVelocity.x = defaultMaxVelocity;
 			maxVelocity.y = defaultMaxVelocity;
 			lerpingToVelocity = false;
-			assignHitboxes();
 		}
 		
 		private function assignHitboxes():void{
+			
+			
+			
 			for(var i:int=0;i<this.numChildren;i++){
 				if(this.getChildAt(i).name.indexOf("hitbox") != -1){
 					hitboxes.push(this.getChildAt(i));
+					
 					this.getChildAt(i).visible=false;
 				}
 			}
+		}
+		
+		public function setType(difficultyMode,enemySpawnSequenceCount):void{
+			switch(difficultyMode){
+				case "easy":
+					this.gotoAndStop(enemySpawnSequenceCount);
+					break;
+				case "medium":
+					break;
+				case "hard":
+					break;
+			}
+			
+			assignHitboxes();
 		}
 		
 		private function selectEnemyType():void{

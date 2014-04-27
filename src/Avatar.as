@@ -34,6 +34,7 @@
 		private var shakeRandomNess:Point = new Point();
 		private var health:int = 0;
 		private var maxHealth:int = 10;
+		private var altitude:int = 0;
 		public function Avatar (){
 			stop();
 			stopAllButtonsFromAnimating();
@@ -62,6 +63,7 @@
 			hitbox.visible=false;
 			Main.theStage.addEventListener(GameEvent.SCREEN_SHAKE, shakeScreen);
 			windshield.stop();
+			altimeter.txt_altitude.text = String(altitude);
 		}
 		
 		public function resetVelocity():void{
@@ -184,6 +186,8 @@
 			}
 			lerpToVelocity();
 			screenShake();
+			altitude++;
+			altimeter.txt_altitude.text = String(altitude);
 		}
 		
 		public override function clickHandler(event:MouseEvent):void{
