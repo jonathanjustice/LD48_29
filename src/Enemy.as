@@ -208,6 +208,10 @@
 			fallHeight = fallHeight * fallVelocityMultiplier;
 			this.scaleX = fallHeight / fallHeightMax;
 			this.scaleY = this.scaleX;
+			this.alpha = this.scaleX;
+			if(this.alpha>1){
+				this.alpha=1;
+			}
 			heightMultiplier = this.scaleX;
 			if(fallHeight > 950){
 				if(!hasCollided){
