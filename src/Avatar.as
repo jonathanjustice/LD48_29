@@ -16,10 +16,10 @@
 		private var pilotVelocity:Point = new Point();
 		private var maxVelocity:Point = new Point();
 		private var defaultMaxVelocity:int = 5;
-		private var desiredXVelocity:int = 0;
-		private var desiredYVelocity:int = 0;
-		private var pilotDesiredX:int = 0;
-		private var pilotDesiredY:int = 0;
+		private var desiredXVelocity:Number = 0;
+		private var desiredYVelocity:Number = 0;
+		private var pilotDesiredX:Number = 0;
+		private var pilotDesiredY:Number = 0;
 		private var lerpingToVelocity:Boolean=true;
 		private var multiplierX:Number=.01;
 		private var multiplierY:Number=.01;
@@ -72,7 +72,6 @@
 		}
 		
 		public function setMaxVelocity(newX:int,newY:int):void{
-			
 			maxVelocity.x = newX;
 			maxVelocity.y = newY;
 		}
@@ -80,17 +79,20 @@
 		public function lerpToVelocity():void{
 			if(lerpingToVelocity){
 				var lerpAmountX:Number = (desiredXVelocity-velocity.x)*multiplierX;
-				velocity.x += lerpAmountX;
-				pilotVelocity.x =+ lerpAmountX + pilotDesiredX-pilots.x;
 				var lerpAmountY:Number = (desiredYVelocity-velocity.y)*multiplierY;
+				velocity.x += lerpAmountX;
 				velocity.y += lerpAmountY;
-				pilotVelocity.y =+ lerpAmountY + pilotDesiredY-pilots.y;
+				pilotVelocity.x += lerpAmountX + pilotDesiredX-pilots.x;
+				pilotVelocity.y += lerpAmountY + pilotDesiredY-pilots.y;
 			}
 			/*if(Math.abs(desiredX-this.x) > 0){
 				resumeLerping();
 			}*/
-			this.pilots.x += pilotVelocity.x *.5;
-			this.pilots.y += pilotVelocity.y *.5;
+			trace(pilotVelocity);
+			this.pilots.x += pilotVelocity.x * .5;
+			this.pilots.y += pilotVelocity.y * .5;
+			this.seats.x += pilotVelocity.x *.1;
+			this.seats.y += pilotVelocity.y *.1;
 			this.x += velocity.x;
 			this.y += velocity.y;
 			if(this.x < 225){

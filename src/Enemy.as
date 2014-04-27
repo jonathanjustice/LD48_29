@@ -29,7 +29,7 @@
 		public var isCollisionActive:Boolean=false;
 		public var collisionDamage:int=1;
 		private var hasCollided:Boolean=false;
-		private var hitboxes:Array;
+		public var hitboxes:Array;
 		public function Enemy (){
 			stop();
 			stopAllButtonsFromAnimating();
@@ -60,11 +60,15 @@
 			maxVelocity.y = defaultMaxVelocity;
 			lerpingToVelocity = false;
 			assignHitboxes();
-			hitbox.visible=false;
 		}
 		
 		private function assignHitboxes():void{
-			
+			for(var i:int=0;i<this.numChildren;i++){
+				if(this.getChildAt(i).name.indexOf("hitbox") != -1){
+					hitboxes.push(this.getChildAt(i));
+					this.getChildAt(i).visible=false;
+				}
+			}
 		}
 		
 		private function selectEnemyType():void{

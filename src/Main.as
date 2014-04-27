@@ -165,14 +165,15 @@
 				}
 				//CHECK FOR COLLISION WITH ENEMIES
 				for(var i:int=0;i<enemies.length;i++){
-					
-					if(enemies[i].hitbox.hitTestObject(avatar.hitbox)){
-						if(enemies[i].isCollisionActive){
-							trace("collisions!",i);
-							dispatchEvent(new GameEvent("SCREEN_SHAKE","SCREEN_SHAKE"));
-							dispatchEvent(new GameEvent("SCREEN_FLASH_WHITE","SCREEN_FLASH_WHITE"));
-							//dispatchEvent(new GameEvent("SCREEN_FLASH_RED","SCREEN_FLASH_RED"));
-							avatar.deductHealth(enemies[i].collisionDamage);
+					for each(var enemyHitbox:MovieClip in enemies[i].hitboxes){
+						if(enemyHitbox.hitTestObject(avatar.hitbox)){
+							if(enemies[i].isCollisionActive){
+								trace("collisions!",i);
+								dispatchEvent(new GameEvent("SCREEN_SHAKE","SCREEN_SHAKE"));
+								dispatchEvent(new GameEvent("SCREEN_FLASH_WHITE","SCREEN_FLASH_WHITE"));
+								//dispatchEvent(new GameEvent("SCREEN_FLASH_RED","SCREEN_FLASH_RED"));
+								avatar.deductHealth(enemies[i].collisionDamage);
+							}
 						}
 					}
 				}
