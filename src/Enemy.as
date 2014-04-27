@@ -28,6 +28,8 @@
 		private var heightMultiplier:Number=0;
 		public var isCollisionActive:Boolean=false;
 		public var collisionDamage:int=1;
+		private var hasCollided:Boolean=false;
+		private var hitboxes:Array;
 		public function Enemy (){
 			stop();
 			stopAllButtonsFromAnimating();
@@ -35,6 +37,8 @@
 		}
 		
 		public override function setUp():void {
+			hitboxes = new Array();
+			selectEnemyType();
 			this.scaleX = 0;
 			this.scaleY = 0;
 			seedRandomSpawnPoint();
@@ -55,7 +59,17 @@
 			maxVelocity.x = defaultMaxVelocity;
 			maxVelocity.y = defaultMaxVelocity;
 			lerpingToVelocity = false;
+			assignHitboxes();
 			hitbox.visible=false;
+		}
+		
+		private function assignHitboxes():void{
+			
+		}
+		
+		private function selectEnemyType():void{
+			var newType:int = Math.random()*10;
+			this.gotoAndStop(newType);
 		}
 		
 		private function seedRandomSpawnPoint():void{
@@ -174,9 +188,14 @@
 			this.scaleY = this.scaleX;
 			heightMultiplier = this.scaleX;
 			if(fallHeight > 950){
-				isCollisionActive = true;
-				//Main.uiContainer.setScreenShake(true,"C_RECT");
+				if(!hasCollided){
+					isCollisionActive = true;
+				}
+			}else{
+				isCollisionActive = false;
 			}
+			
+			
 			if(fallHeight > 1000){
 				isCollisionActive = false;
 				this.removeEventListener(Event.ENTER_FRAME, updateloop);

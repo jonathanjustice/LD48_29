@@ -28,7 +28,7 @@ import flash.events.Event;
 		public function StateMachineEvent(type:String,result:String,bubbles:Boolean=true) {
 			super(type, bubbles, cancelable);
 			this.result = result;
-			trace("StateMachineEvent EventType: **",type,"**", "EventResult: **", result,"**");
+			//trace("StateMachineEvent EventType: **",type,"**", "EventResult: **", result,"**");
 		}
 	}
 }

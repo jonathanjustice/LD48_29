@@ -124,8 +124,6 @@
 		
 		private function removeAndDisableEverything():void{
 			for(var i:int=0;i<enemies.length;i++){
-				trace(enemies);
-				trace(i);
 				enemies[i].removeThisGameObject();
 				i--;
 			}
@@ -160,15 +158,17 @@
 				//SPAWN NEW ENEMIES
 				enemyCounter+=1;
 				if(enemyCounter >= enemyCountMax){
+					//var enemy:Enemy = new Enemy();
 					var enemy:Enemy = new Enemy();
 					enemies.push(enemy);
 					enemyCounter=0;
 				}
 				//CHECK FOR COLLISION WITH ENEMIES
 				for(var i:int=0;i<enemies.length;i++){
+					
 					if(enemies[i].hitbox.hitTestObject(avatar.hitbox)){
 						if(enemies[i].isCollisionActive){
-							//trace("collisions!")
+							trace("collisions!",i);
 							dispatchEvent(new GameEvent("SCREEN_SHAKE","SCREEN_SHAKE"));
 							dispatchEvent(new GameEvent("SCREEN_FLASH_WHITE","SCREEN_FLASH_WHITE"));
 							//dispatchEvent(new GameEvent("SCREEN_FLASH_RED","SCREEN_FLASH_RED"));
